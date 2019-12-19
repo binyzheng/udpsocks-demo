@@ -7,11 +7,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-
+#include <opencv2/opencv.hpp>
 
 #define DEST_PORT 8000
 #define DSET_IP_ADDRESS  "127.0.0.1"
 
+using namespace cv;
 
 int main()
 {
@@ -35,33 +36,37 @@ int main()
     addr_serv.sin_port = htons(DEST_PORT);
     len = sizeof(addr_serv);
 
-
-    int send_num;
-    int recv_num;
-    char send_buf[20] = "hey, who are you?";
-    char recv_buf[20];
-
-    printf("client send: %s\n", send_buf);
-
-    send_num = sendto(sock_fd, send_buf, strlen(send_buf), 0, (struct sockaddr *)&addr_serv, len);
-
-    if(send_num < 0)
+    Mat gray = imread("./testImg/test.png", IMREAD_ANYDEPTH | IMREAD_ANYCOLOR);
+    int width = gray.cols;
+    int height = gray.rows;
+    void* buf = malloc(width+4);  // 加四个字节代表行数
+    while(1)
     {
-        perror("sendto error:");
-        exit(1);
+        int sendBytes = width*height;
+        int send_num = width+4;
+        int res = -1;
+
+        printf("client send one gray image.\n");
+
+        // 每次发一行
+        for(int j=0; j < height; ++j)
+        {
+            auto row = gray.ptr(j);
+            ((uint*)buf)[0] = j;
+            memcpy(buf+4, row, width);
+            res = sendto(sock_fd, buf, send_num, 0, (struct sockaddr *)&addr_serv, len);
+        }
+
+        if(res < 0)
+        {
+            perror("sendto error:");
+            exit(1);
+        }
+
+        usleep(100*1000); // 100ms
     }
 
-    recv_num = recvfrom(sock_fd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr *)&addr_serv, (socklen_t *)&len);
-
-    if(recv_num < 0)
-    {
-        perror("recvfrom error:");
-        exit(1);
-    }
-
-    recv_buf[recv_num] = '\0';
-    printf("client receive %d bytes: %s\n", recv_num, recv_buf);
-
+    free(buf);
     close(sock_fd);
 
     return 0;

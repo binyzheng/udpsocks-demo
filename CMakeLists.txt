@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 # project info
 set(projectName udpsocksDemo)
-set(_version_ 0.0.1)
+set(_version_ 0.0.2)
 
 project(${projectName} VERSION ${_version_})
 

@@ -3,11 +3,11 @@
 
 namespace SN
 {
-#define udpsocks_VERSION_MAJOR @udpsocks_VERSION_MAJOR@
-#define udpsocks_VERSION_MINOR @udpsocks_VERSION_MINOR@
-#define udpsocks_VERSION_PATCH @udpsocks_VERSION_PATCH@
+#define udpsocksDemo_VERSION_MAJOR @udpsocksDemo_VERSION_MAJOR@
+#define udpsocksDemo_VERSION_MINOR @udpsocksDemo_VERSION_MINOR@
+#define udpsocksDemo_VERSION_PATCH @udpsocksDemo_VERSION_PATCH@
 // note that each component is limited into [0-99] range by design
-#define udpsocks_VERSION (((udpsocks_VERSION_MAJOR) * 10000) + ((udpsocks_VERSION_MINOR) * 100) + (udpsocks_VERSION_PATCH))
+#define udpsocksDemo_VERSION (((udpsocksDemo_VERSION_MAJOR) * 10000) + ((udpsocksDemo_VERSION_MINOR) * 100) + (udpsocksDemo_VERSION_PATCH))
 }
 
 #endif
