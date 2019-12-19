@@ -1,0 +1,13 @@
+#ifndef __CONFIG_HPP__
+#define __CONFIG_HPP__
+
+namespace SN
+{
+#define @projectName@_VERSION_MAJOR @@projectName@_VERSION_MAJOR@
+#define @projectName@_VERSION_MINOR @@projectName@_VERSION_MINOR@
+#define @projectName@_VERSION_PATCH @@projectName@_VERSION_PATCH@
+// note that each component is limited into [0-99] range by design
+#define @projectName@_VERSION (((@projectName@_VERSION_MAJOR) * 10000) + ((@projectName@_VERSION_MINOR) * 100) + (@projectName@_VERSION_PATCH))
+}
+
+#endif
